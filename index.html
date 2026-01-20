@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa Optical Pro | Khagesh AI Nexa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; }
+        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; }
+    </style>
+</head>
+<body class="p-4 max-w-md mx-auto">
+    <header class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-emerald-400 uppercase">Khagesh AI Nexa</h1>
+        <p class="text-gray-400 text-sm">Optical Prescription Digital Card</p>
+    </header>
+
+    <div class="card mb-6">
+        <h3 class="font-bold mb-3 text-emerald-400">Naya Customer Add Karein</h3>
+        <input type="text" id="custName" placeholder="Customer ka Naam" class="w-full p-2 mb-2 rounded bg-gray-800 border border-gray-700">
+        <input type="text" id="custPhone" placeholder="Mobile Number" class="w-full p-2 mb-4 rounded bg-gray-800 border border-gray-700">
+        
+        <div class="grid grid-cols-2 gap-4 text-center mb-4">
+            <div>
+                <p class="text-xs font-bold mb-1 uppercase">Right Eye (OD)</p>
+                <input type="text" id="re" placeholder="Power" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
+            </div>
+            <div>
+                <p class="text-xs font-bold mb-1 uppercase">Left Eye (OS)</p>
+                <input type="text" id="le" placeholder="Power" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
+            </div>
+        </div>
+        <button onclick="saveRecord()" class="w-full bg-emerald-600 p-3 rounded-xl font-bold">SAVE RECORD</button>
+    </div>
+
+    <h3 class="font-bold mb-3 px-2">Purane Records</h3>
+    <div id="recordsList" class="space-y-4 pb-20"></div>
+
+    <footer class="fixed bottom-0 left-0 w-full p-3 bg-black/80 text-center text-[10px] text-gray-500">
+        Powered by KHAGESH AI NEXA
+    </footer>
+
+    <script>
+        let records = JSON.parse(localStorage.getItem('nexaOpticalData')) || [];
+
+        function render() {
+            const list = document.getElementById('recordsList');
+            list.innerHTML = '';
+            records.forEach((r, i) => {
+                const div = document.createElement('div');
+                div.className = "card";
+                div.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="font-bold text-lg">${r.name}</p>
+                            <p class="text-xs text-gray-400">${r.phone}</p>
+                        </div>
+                        <button onclick="deleteRec(${i})" class="text-xs bg-red-900/30 p-1 rounded">Delete</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 border-t border-gray-800 pt-2 mt-2">
+                        <div class="text-sm"><span class="text-emerald-400 font-bold">RE:</span> ${r.re}</div>
+                        <div class="text-sm"><span class="text-emerald-400 font-bold">LE:</span> ${r.le}</div>
+                    </div>
+                `;
+                list.prepend(div);
+            });
+            localStorage.setItem('nexaOpticalData', JSON.stringify(records));
+        }
+
+        function saveRecord() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const re = document.getElementById('re').value;
+            const le = document.getElementById('le').value;
+
+            if(name && (re || le)) {
+                records.push({name, phone, re, le});
+                render();
+                document.getElementById('custName').value = '';
+                document.getElementById('custPhone').value = '';
+                document.getElementById('re').value = '';
+                document.getElementById('le').value = '';
+            } else { alert("Naam aur Power dalo!"); }
+        }
+
+        function deleteRec(i) { if(confirm("Delete?")) { records.splice(i, 1); render(); } }
+        render();
+    </script>
+</body>
+</html>
