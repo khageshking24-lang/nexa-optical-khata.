@@ -3,64 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexa Optical Pro | Khagesh AI Nexa</title>
+    <title>Pradeep Verma | Nexa Optical Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #0f172a; color: white; font-family: sans-serif; }
-        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; }
+        :root { --bg: #0f172a; --card: rgba(255,255,255,0.05); --text: white; }
+        .light-mode { --bg: #f8fafc; --card: white; --text: #1e293b; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: 0.3s; }
+        .glass-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .nexa-gold { background: linear-gradient(45deg, #fbbf24, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body class="p-4 max-w-md mx-auto">
-    <header class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-emerald-400 uppercase">Khagesh AI Nexa</h1>
-        <p class="text-gray-400 text-sm">Optical Prescription Digital Card</p>
+<body class="p-4 max-w-md mx-auto pb-24">
+
+    <header class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-3xl font-black uppercase tracking-tighter nexa-gold">PRADEEP VERMA</h1>
+            <p class="text-[10px] font-bold opacity-60 tracking-[3px] uppercase">Nexa AI Optical Solutions</p>
+        </div>
+        <button onclick="toggleTheme()" class="p-2 rounded-full glass-card">
+            <i id="themeIcon" class="fas fa-moon"></i>
+        </button>
     </header>
 
-    <div class="card mb-6">
-        <h3 class="font-bold mb-3 text-emerald-400">Naya Customer Add Karein</h3>
-        <input type="text" id="custName" placeholder="Customer ka Naam" class="w-full p-2 mb-2 rounded bg-gray-800 border border-gray-700">
-        <input type="text" id="custPhone" placeholder="Mobile Number" class="w-full p-2 mb-4 rounded bg-gray-800 border border-gray-700">
-        
-        <div class="grid grid-cols-2 gap-4 text-center mb-4">
-            <div>
-                <p class="text-xs font-bold mb-1 uppercase">Right Eye (OD)</p>
-                <input type="text" id="re" placeholder="Power" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
-            </div>
-            <div>
-                <p class="text-xs font-bold mb-1 uppercase">Left Eye (OS)</p>
-                <input type="text" id="le" placeholder="Power" class="w-full p-2 rounded bg-gray-800 border border-gray-700">
-            </div>
-        </div>
-        <button onclick="saveRecord()" class="w-full bg-emerald-600 p-3 rounded-xl font-bold">SAVE RECORD</button>
+    <div class="mb-6 relative">
+        <input type="text" id="searchBar" onkeyup="searchRecords()" placeholder="🔍 Customer ya Phone dhoondhein..." 
+        class="w-full p-4 pl-12 rounded-2xl glass-card outline-none focus:ring-2 focus:ring-emerald-500 bg-transparent">
     </div>
 
-    <h3 class="font-bold mb-3 px-2">Purane Records</h3>
-    <div id="recordsList" class="space-y-4 pb-20"></div>
+    <div class="glass-card p-5 mb-8 border-t-4 border-emerald-500">
+        <h3 class="font-bold mb-4 flex items-center gap-2">
+            <i class="fas fa-user-plus text-emerald-400"></i> Naya Entry
+        </h3>
+        <input type="text" id="custName" placeholder="Customer Name" class="w-full p-3 mb-3 rounded-xl bg-black/20 border border-gray-700 outline-none">
+        <input type="tel" id="custPhone" placeholder="Mobile Number" class="w-full p-3 mb-4 rounded-xl bg-black/20 border border-gray-700 outline-none">
+        
+        <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="text-center">
+                <p class="text-[10px] font-bold mb-2 opacity-50">RIGHT EYE (OD)</p>
+                <input type="text" id="re" placeholder="Power" class="w-full p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center">
+            </div>
+            <div class="text-center">
+                <p class="text-[10px] font-bold mb-2 opacity-50">LEFT EYE (OS)</p>
+                <input type="text" id="le" placeholder="Power" class="w-full p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center">
+            </div>
+        </div>
+        <button onclick="saveRecord()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-2xl shadow-lg transition transform active:scale-95">
+            SAVE DIGITAL RECORD
+        </button>
+    </div>
 
-    <footer class="fixed bottom-0 left-0 w-full p-3 bg-black/80 text-center text-[10px] text-gray-500">
-        Powered by KHAGESH AI NEXA
+    <div id="recordsList" class="space-y-4"></div>
+
+    <footer class="fixed bottom-0 left-0 w-full p-4 bg-black/90 backdrop-blur-md text-center border-t border-white/10">
+        <p class="text-[10px] text-gray-400 font-medium uppercase tracking-widest">Powered by Khagesh AI Nexa</p>
     </footer>
 
     <script>
         let records = JSON.parse(localStorage.getItem('nexaOpticalData')) || [];
 
-        function render() {
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = document.getElementById('themeIcon');
+            icon.className = document.body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        function render(filteredRecords = records) {
             const list = document.getElementById('recordsList');
             list.innerHTML = '';
-            records.forEach((r, i) => {
+            filteredRecords.forEach((r, i) => {
                 const div = document.createElement('div');
-                div.className = "card";
+                div.className = "glass-card p-4 animate-in fade-in duration-500";
                 div.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
+                    <div class="flex justify-between items-start">
                         <div>
                             <p class="font-bold text-lg">${r.name}</p>
-                            <p class="text-xs text-gray-400">${r.phone}</p>
+                            <p class="text-xs opacity-60">${r.phone || 'No Number'}</p>
                         </div>
-                        <button onclick="deleteRec(${i})" class="text-xs bg-red-900/30 p-1 rounded">Delete</button>
+                        <div class="flex gap-2">
+                            <button onclick="shareWhatsApp(${i})" class="p-2 text-emerald-400 hover:bg-emerald-400/10 rounded-lg">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </button>
+                            <button onclick="deleteRec(${i})" class="p-2 text-red-400 hover:bg-red-400/10 rounded-lg">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 border-t border-gray-800 pt-2 mt-2">
-                        <div class="text-sm"><span class="text-emerald-400 font-bold">RE:</span> ${r.re}</div>
-                        <div class="text-sm"><span class="text-emerald-400 font-bold">LE:</span> ${r.le}</div>
+                    <div class="grid grid-cols-2 gap-4 mt-4 pt-3 border-t border-white/5">
+                        <div class="bg-black/20 p-2 rounded-lg text-center">
+                            <span class="text-[10px] block opacity-50">RIGHT</span>
+                            <span class="font-mono font-bold text-emerald-400">${r.re || '0.00'}</span>
+                        </div>
+                        <div class="bg-black/20 p-2 rounded-lg text-center">
+                            <span class="text-[10px] block opacity-50">LEFT</span>
+                            <span class="font-mono font-bold text-emerald-400">${r.le || '0.00'}</span>
+                        </div>
                     </div>
                 `;
                 list.prepend(div);
@@ -75,17 +112,33 @@
             const le = document.getElementById('le').value;
 
             if(name && (re || le)) {
-                records.push({name, phone, re, le});
+                records.push({name, phone, re, le, date: new Date().toLocaleDateString()});
                 render();
                 document.getElementById('custName').value = '';
                 document.getElementById('custPhone').value = '';
                 document.getElementById('re').value = '';
                 document.getElementById('le').value = '';
-            } else { alert("Naam aur Power dalo!"); }
+            } else { alert("Bhai, Naam aur Power toh dalo!"); }
         }
 
-        function deleteRec(i) { if(confirm("Delete?")) { records.splice(i, 1); render(); } }
+        function searchRecords() {
+            const term = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = records.filter(r => 
+                r.name.toLowerCase().includes(term) || 
+                r.phone.includes(term)
+            );
+            render(filtered);
+        }
+
+        function shareWhatsApp(i) {
+            const r = records[i];
+            const msg = `*PRADEEP VERMA OPTICALS*%0A---------------------------%0A*Customer:* ${r.name}%0A*Right Eye:* ${r.re}%0A*Left Eye:* ${r.le}%0A---------------------------%0APowered by Nexa AI`;
+            window.open(`https://wa.me/${r.phone}?text=${msg}`);
+        }
+
+        function deleteRec(i) { if(confirm("Delete record?")) { records.splice(i, 1); render(); } }
         render();
     </script>
 </body>
-</html>
+                    </html>
+                    
