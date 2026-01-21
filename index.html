@@ -9,9 +9,10 @@
     <style>
         :root { --bg: #0f172a; --card: rgba(255,255,255,0.05); --text: white; }
         .light-mode { --bg: #f8fafc; --card: white; --text: #1e293b; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: 0.3s; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
         .glass-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
         .nexa-gold { background: linear-gradient(45deg, #fbbf24, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        input::placeholder { font-size: 12px; opacity: 0.5; }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
@@ -26,30 +27,34 @@
         </button>
     </header>
 
-    <div class="mb-6 relative">
+    <div class="mb-6">
         <input type="text" id="searchBar" onkeyup="searchRecords()" placeholder="🔍 Customer ya Phone dhoondhein..." 
-        class="w-full p-4 pl-12 rounded-2xl glass-card outline-none focus:ring-2 focus:ring-emerald-500 bg-transparent">
+        class="w-full p-4 rounded-2xl glass-card outline-none focus:ring-2 focus:ring-emerald-500 bg-transparent">
     </div>
 
     <div class="glass-card p-5 mb-8 border-t-4 border-emerald-500">
         <h3 class="font-bold mb-4 flex items-center gap-2">
-            <i class="fas fa-user-plus text-emerald-400"></i> Naya Entry
+            <i class="fas fa-user-plus text-emerald-400"></i> Naya Digital Record
         </h3>
         <input type="text" id="custName" placeholder="Customer Name" class="w-full p-3 mb-3 rounded-xl bg-black/20 border border-gray-700 outline-none">
         <input type="tel" id="custPhone" placeholder="Mobile Number" class="w-full p-3 mb-4 rounded-xl bg-black/20 border border-gray-700 outline-none">
         
-        <div class="grid grid-cols-2 gap-4 mb-5">
-            <div class="text-center">
-                <p class="text-[10px] font-bold mb-2 opacity-50">RIGHT EYE (OD)</p>
-                <input type="text" id="re" placeholder="Power" class="w-full p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center">
-            </div>
-            <div class="text-center">
-                <p class="text-[10px] font-bold mb-2 opacity-50">LEFT EYE (OS)</p>
-                <input type="text" id="le" placeholder="Power" class="w-full p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center">
-            </div>
+        <p class="text-[10px] font-bold mb-2 opacity-50 tracking-widest text-emerald-400">RIGHT EYE (OD)</p>
+        <div class="grid grid-cols-3 gap-2 mb-4">
+            <input type="text" id="re_sph" placeholder="SPH" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
+            <input type="text" id="re_cyl" placeholder="CYL" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
+            <input type="text" id="re_axis" placeholder="AXIS" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
         </div>
+
+        <p class="text-[10px] font-bold mb-2 opacity-50 tracking-widest text-emerald-400">LEFT EYE (OS)</p>
+        <div class="grid grid-cols-3 gap-2 mb-5">
+            <input type="text" id="le_sph" placeholder="SPH" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
+            <input type="text" id="le_cyl" placeholder="CYL" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
+            <input type="text" id="le_axis" placeholder="AXIS" class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-center text-sm">
+        </div>
+
         <button onclick="saveRecord()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-2xl shadow-lg transition transform active:scale-95">
-            SAVE DIGITAL RECORD
+            SAVE RECORD
         </button>
     </div>
 
@@ -73,30 +78,30 @@
             list.innerHTML = '';
             filteredRecords.forEach((r, i) => {
                 const div = document.createElement('div');
-                div.className = "glass-card p-4 animate-in fade-in duration-500";
+                div.className = "glass-card p-4";
                 div.innerHTML = `
-                    <div class="flex justify-between items-start">
+                    <div class="flex justify-between items-start mb-3">
                         <div>
-                            <p class="font-bold text-lg">${r.name}</p>
-                            <p class="text-xs opacity-60">${r.phone || 'No Number'}</p>
+                            <p class="font-bold text-lg leading-none mb-1">${r.name}</p>
+                            <p class="text-xs opacity-60">${r.phone || 'No Number'} | ${r.date}</p>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="shareWhatsApp(${i})" class="p-2 text-emerald-400 hover:bg-emerald-400/10 rounded-lg">
-                                <i class="fab fa-whatsapp text-xl"></i>
-                            </button>
-                            <button onclick="deleteRec(${i})" class="p-2 text-red-400 hover:bg-red-400/10 rounded-lg">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <button onclick="shareWhatsApp(${i})" class="p-2 text-emerald-400"><i class="fab fa-whatsapp text-xl"></i></button>
+                            <button onclick="deleteRec(${i})" class="p-2 text-red-400"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-4 mt-4 pt-3 border-t border-white/5">
-                        <div class="bg-black/20 p-2 rounded-lg text-center">
-                            <span class="text-[10px] block opacity-50">RIGHT</span>
-                            <span class="font-mono font-bold text-emerald-400">${r.re || '0.00'}</span>
+                    <div class="grid grid-cols-2 gap-3 text-center border-t border-white/5 pt-3">
+                        <div class="bg-black/20 p-2 rounded-lg">
+                            <p class="text-[9px] font-bold opacity-40 mb-1">RIGHT (OD)</p>
+                            <div class="flex justify-around text-xs font-mono">
+                                <span>S:${r.re_sph || '-'}</span> <span>C:${r.re_cyl || '-'}</span> <span>A:${r.re_axis || '-'}</span>
+                            </div>
                         </div>
-                        <div class="bg-black/20 p-2 rounded-lg text-center">
-                            <span class="text-[10px] block opacity-50">LEFT</span>
-                            <span class="font-mono font-bold text-emerald-400">${r.le || '0.00'}</span>
+                        <div class="bg-black/20 p-2 rounded-lg">
+                            <p class="text-[9px] font-bold opacity-40 mb-1">LEFT (OS)</p>
+                            <div class="flex justify-around text-xs font-mono">
+                                <span>S:${r.le_sph || '-'}</span> <span>C:${r.le_cyl || '-'}</span> <span>A:${r.le_axis || '-'}</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -108,31 +113,34 @@
         function saveRecord() {
             const name = document.getElementById('custName').value;
             const phone = document.getElementById('custPhone').value;
-            const re = document.getElementById('re').value;
-            const le = document.getElementById('le').value;
+            
+            if(!name) { alert("Bhai, Naam toh dalo!"); return; }
 
-            if(name && (re || le)) {
-                records.push({name, phone, re, le, date: new Date().toLocaleDateString()});
-                render();
-                document.getElementById('custName').value = '';
-                document.getElementById('custPhone').value = '';
-                document.getElementById('re').value = '';
-                document.getElementById('le').value = '';
-            } else { alert("Bhai, Naam aur Power toh dalo!"); }
+            records.push({
+                name, phone,
+                re_sph: document.getElementById('re_sph').value,
+                re_cyl: document.getElementById('re_cyl').value,
+                re_axis: document.getElementById('re_axis').value,
+                le_sph: document.getElementById('le_sph').value,
+                le_cyl: document.getElementById('le_cyl').value,
+                le_axis: document.getElementById('le_axis').value,
+                date: new Date().toLocaleDateString()
+            });
+
+            render();
+            // Clear inputs
+            ['custName','custPhone','re_sph','re_cyl','re_axis','le_sph','le_cyl','le_axis'].forEach(id => document.getElementById(id).value = '');
         }
 
         function searchRecords() {
             const term = document.getElementById('searchBar').value.toLowerCase();
-            const filtered = records.filter(r => 
-                r.name.toLowerCase().includes(term) || 
-                r.phone.includes(term)
-            );
+            const filtered = records.filter(r => r.name.toLowerCase().includes(term) || r.phone.includes(term));
             render(filtered);
         }
 
         function shareWhatsApp(i) {
             const r = records[i];
-            const msg = `*PRADEEP VERMA OPTICALS*%0A---------------------------%0A*Customer:* ${r.name}%0A*Right Eye:* ${r.re}%0A*Left Eye:* ${r.le}%0A---------------------------%0APowered by Nexa AI`;
+            const msg = `*PRADEEP VERMA OPTICALS*%0A*Customer:* ${r.name}%0A---%0A*RIGHT EYE:* SPH:${r.re_sph}, CYL:${r.re_cyl}, AXIS:${r.re_axis}%0A*LEFT EYE:* SPH:${r.le_sph}, CYL:${r.le_cyl}, AXIS:${r.le_axis}%0A---%0APowered by Nexa AI`;
             window.open(`https://wa.me/${r.phone}?text=${msg}`);
         }
 
@@ -140,5 +148,4 @@
         render();
     </script>
 </body>
-                    </html>
-                    
+</html>
