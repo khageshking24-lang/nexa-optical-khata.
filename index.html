@@ -12,7 +12,7 @@
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
         .glass-card { background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
         .nexa-gold { background: linear-gradient(45deg, #fbbf24, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .power-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+        .power-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
         input { font-size: 13px !important; }
     </style>
 </head>
@@ -26,39 +26,42 @@
         <button onclick="toggleTheme()" class="p-2 rounded-full glass-card"><i id="themeIcon" class="fas fa-moon"></i></button>
     </header>
 
-    <div class="mb-6"><input type="text" id="searchBar" onkeyup="searchRecords()" placeholder="🔍 Search Customer..." class="w-full p-4 rounded-2xl glass-card outline-none bg-transparent"></div>
-
     <div class="glass-card p-5 mb-8 border-t-4 border-emerald-500">
-        <h3 class="font-bold mb-4 flex items-center gap-2"><i class="fas fa-eye text-emerald-400"></i> Eye Test Entry</h3>
+        <h3 class="font-bold mb-4 flex items-center gap-2"><i class="fas fa-file-invoice-dollar text-emerald-400"></i> New Order & Eye Test</h3>
         <input type="text" id="custName" placeholder="Customer Name" class="w-full p-3 mb-2 rounded-xl bg-black/20 border border-gray-700 outline-none">
         <input type="tel" id="custPhone" placeholder="Mobile Number" class="w-full p-3 mb-4 rounded-xl bg-black/20 border border-gray-700 outline-none">
         
-        <p class="text-[11px] font-bold mb-2 text-emerald-400 uppercase tracking-widest">--- Distance (Door) ---</p>
+        <p class="text-[10px] font-bold mb-2 text-emerald-400 uppercase tracking-widest">Distance (Door)</p>
         <div class="power-grid">
-            <input type="text" id="re_dist" placeholder="RE SPH" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
-            <input type="text" id="re_dist_c" placeholder="RE CYL" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
-            <input type="text" id="re_dist_a" placeholder="RE AXIS" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
+            <input type="text" id="rd_s" placeholder="RE SPH" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
+            <input type="text" id="rd_c" placeholder="RE CYL" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
+            <input type="text" id="rd_a" placeholder="RE AXIS" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
         </div>
-        <div class="power-grid">
-            <input type="text" id="le_dist" placeholder="LE SPH" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
-            <input type="text" id="le_dist_c" placeholder="LE CYL" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
-            <input type="text" id="le_dist_a" placeholder="LE AXIS" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
-        </div>
-
-        <p class="text-[11px] font-bold mb-2 text-amber-400 uppercase tracking-widest mt-2">--- Reading (Paas) ---</p>
-        <div class="power-grid">
-            <input type="text" id="re_read" placeholder="RE SPH" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
-            <input type="text" id="re_read_c" placeholder="RE CYL" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
-            <input type="text" id="re_read_a" placeholder="RE AXIS" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
-        </div>
-        <div class="power-grid">
-            <input type="text" id="le_read" placeholder="LE SPH" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
-            <input type="text" id="le_read_c" placeholder="LE CYL" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
-            <input type="text" id="le_read_a" placeholder="LE AXIS" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+        <div class="power-grid mb-4">
+            <input type="text" id="ld_s" placeholder="LE SPH" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
+            <input type="text" id="ld_c" placeholder="LE CYL" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
+            <input type="text" id="ld_a" placeholder="LE AXIS" class="p-2 rounded-lg bg-emerald-900/10 border border-emerald-500/30 text-center">
         </div>
 
-        <textarea id="desc" placeholder="Frame/Lens Details..." class="w-full p-3 mb-4 rounded-xl bg-black/20 border border-gray-700 h-16 text-sm"></textarea>
-        <button onclick="saveRecord()" class="w-full bg-emerald-600 font-bold py-4 rounded-2xl">SAVE COMPLETE RECORD</button>
+        <p class="text-[10px] font-bold mb-2 text-amber-400 uppercase tracking-widest">Reading (Paas)</p>
+        <div class="power-grid">
+            <input type="text" id="rr_s" placeholder="RE SPH" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+            <input type="text" id="rr_c" placeholder="RE CYL" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+            <input type="text" id="rr_a" placeholder="RE AXIS" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+        </div>
+        <div class="power-grid mb-4">
+            <input type="text" id="lr_s" placeholder="LE SPH" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+            <input type="text" id="lr_c" placeholder="LE CYL" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+            <input type="text" id="lr_a" placeholder="LE AXIS" class="p-2 rounded-lg bg-amber-900/10 border border-amber-500/30 text-center">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <input type="number" id="totalAmt" placeholder="Total Bill (₹)" class="p-3 rounded-xl bg-blue-900/10 border border-blue-500/30 outline-none">
+            <input type="number" id="advAmt" placeholder="Advance (₹)" class="p-3 rounded-xl bg-emerald-900/10 border border-emerald-500/30 outline-none">
+        </div>
+
+        <textarea id="desc" placeholder="Frame/Lens Details (Description)..." class="w-full p-3 mb-4 rounded-xl bg-black/20 border border-gray-700 h-16 text-sm"></textarea>
+        <button onclick="saveRecord()" class="w-full bg-emerald-600 font-bold py-4 rounded-2xl shadow-lg">SAVE RECORD</button>
     </div>
 
     <div id="recordsList" class="space-y-4"></div>
@@ -70,28 +73,28 @@
             const icon = document.getElementById('themeIcon');
             icon.className = document.body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
         }
-        function render(filteredRecords = records) {
+        function render() {
             const list = document.getElementById('recordsList');
             list.innerHTML = '';
-            filteredRecords.forEach((r, i) => {
+            records.forEach((r, i) => {
+                const due = (r.total || 0) - (r.adv || 0);
                 const div = document.createElement('div');
-                div.className = "glass-card p-4";
+                div.className = "glass-card p-4 border-l-4 " + (due > 0 ? 'border-red-500' : 'border-emerald-500');
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
-                        <div><p class="font-bold text-lg">${r.name}</p><p class="text-xs opacity-50">${r.phone || 'No Phone'} | ${r.date}</p></div>
-                        <button onclick="deleteRec(${i})" class="text-red-400"><i class="fas fa-trash"></i></button>
+                        <div><p class="font-bold text-lg">${r.name}</p><p class="text-[10px] opacity-50">${r.date}</p></div>
+                        <button onclick="deleteRec(${i})" class="text-red-400 p-2"><i class="fas fa-trash"></i></button>
                     </div>
-                    <div class="text-[10px] space-y-1">
-                        <div class="bg-emerald-500/10 p-2 rounded flex justify-between">
-                            <span><b>DIST:</b> RE: ${r.re_dist}/${r.re_dist_c}x${r.re_dist_a}</span>
-                            <span>LE: ${r.le_dist}/${r.le_dist_c}x${r.le_dist_a}</span>
-                        </div>
-                        <div class="bg-amber-500/10 p-2 rounded flex justify-between">
-                            <span><b>READ:</b> RE: ${r.re_read}/${r.re_read_c}x${r.re_read_a}</span>
-                            <span>LE: ${r.le_read}/${r.le_read_c}x${r.le_read_a}</span>
-                        </div>
+                    <div class="text-[10px] space-y-1 mb-3">
+                        <div class="flex justify-between opacity-80"><span><b>DIST:</b> RE: ${r.rd_s}/${r.rd_c} LE: ${r.ld_s}/${r.ld_c}</span></div>
+                        <div class="flex justify-between opacity-80"><span><b>READ:</b> RE: ${r.rr_s}/${r.rr_c} LE: ${r.lr_s}/${r.lr_c}</span></div>
                     </div>
-                    ${r.desc ? `<div class="mt-2 text-[11px] opacity-70 border-l-2 border-emerald-500 pl-2 italic">Note: ${r.desc}</div>` : ''}
+                    <div class="flex justify-between items-center bg-black/20 p-2 rounded-lg mb-2">
+                        <span class="text-xs">Bill: ₹${r.total}</span>
+                        <span class="text-xs text-emerald-400">Paid: ₹${r.adv}</span>
+                        <span class="text-xs font-bold ${due > 0 ? 'text-red-400' : 'text-emerald-400'}">Due: ₹${due}</span>
+                    </div>
+                    ${r.desc ? `<p class="text-[11px] italic opacity-60">Note: ${r.desc}</p>` : ''}
                 `;
                 list.prepend(div);
             });
@@ -99,25 +102,22 @@
         }
         function saveRecord() {
             const name = document.getElementById('custName').value;
-            if(!name) return alert("Enter Name");
+            if(!name) return alert("Bhai, Naam dalo!");
             records.push({
-                name, phone: document.getElementById('custPhone').value,
-                re_dist: document.getElementById('re_dist').value, re_dist_c: document.getElementById('re_dist_c').value, re_dist_a: document.getElementById('re_dist_a').value,
-                le_dist: document.getElementById('le_dist').value, le_dist_c: document.getElementById('le_dist_c').value, le_dist_a: document.getElementById('le_dist_a').value,
-                re_read: document.getElementById('re_read').value, re_read_c: document.getElementById('re_read_c').value, re_read_a: document.getElementById('re_read_a').value,
-                le_read: document.getElementById('le_read').value, le_read_c: document.getElementById('le_read_c').value, le_read_a: document.getElementById('le_read_a').value,
-                desc: document.getElementById('desc').value, date: new Date().toLocaleDateString()
+                name, date: new Date().toLocaleDateString(),
+                rd_s: document.getElementById('rd_s').value, rd_c: document.getElementById('rd_c').value,
+                ld_s: document.getElementById('ld_s').value, ld_c: document.getElementById('ld_c').value,
+                rr_s: document.getElementById('rr_s').value, rr_c: document.getElementById('rr_c').value,
+                lr_s: document.getElementById('lr_s').value, lr_c: document.getElementById('lr_c').value,
+                total: document.getElementById('totalAmt').value, adv: document.getElementById('advAmt').value,
+                desc: document.getElementById('desc').value
             });
             render();
             document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-        }
-        function searchRecords() {
-            const term = document.getElementById('searchBar').value.toLowerCase();
-            render(records.filter(r => r.name.toLowerCase().includes(term) || r.phone.includes(term)));
         }
         function deleteRec(i) { if(confirm("Delete?")) { records.splice(i, 1); render(); } }
         render();
     </script>
 </body>
                 </html>
-                
+            
